@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:schemaLocation="http://www.springframework.org/schema/beans
+			 http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- 여기서 쓰인 bean의 id값인 db가 12행의 ref로 들어간다 -->
+	<bean id="db" class="bean.DBConnect"/>
+	
+	<bean id="dao" class="bean.BoardDao">
+		<constructor-arg ref="db"/>
+	</bean>
+
+</beans>
