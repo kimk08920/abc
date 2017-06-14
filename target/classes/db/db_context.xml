@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <beans xmlns = "http://www.springframework.org/schema/beans"
-			xmlns:aop="http://www.springframework.org/schema/aop"
-			xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
-			xsi:schemaLocation="http://www.springframework.org/schema/beans 
-					http://www.springframework.org/schema/beans/spring-beans.xsd
-					http://www.springframework.org/schema/aop
-					http://www.springframework.org/schema/aop/spring-aop.xsd">
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd">
 	
-	<!-- 데이터베이스 연결 -->
+	
 	<bean id="db" class="db.DBConnect">
 		<property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
@@ -19,5 +18,17 @@
 	<bean id="dao" class="db.MemberDao">
 		<constructor-arg ref="db"/>
 	</bean>
-
+	
+	<bean id="vo" class="db.MemberVo"/>
+	
+	<bean id="memberAdvice" class="db.MemberAdvice"/>
+	
+	<aop:config>
+         <aop:aspect ref="memberAdvice">
+               <aop:pointcut expression="execution(* db.MemberDao.*(..))" id="publicTarget"/>           
+             <aop:around method="logCheck" pointcut-ref="publicTarget"/>
+         </aop:aspect>
+      
+      </aop:config>
+	
 </beans>
